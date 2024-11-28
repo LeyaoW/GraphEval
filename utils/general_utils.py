@@ -6,6 +6,8 @@ from functools import wraps, partial
 import torch
 from contextlib import nullcontext
 from args import args
+import fickling
+
 class SharedStringList:
     def __init__(self, strings):
         encoded_strings = [s.encode('utf-8') for s in strings]
@@ -230,9 +232,8 @@ def load_from(path, backend='torch', verbose=True):
         import torch
         f= torch.load(path)
     elif backend == 'pickle':
-        import pickle
         with open(path, 'rb') as file:
-            f= pickle.load(file)
+            f= fickling.load(file)
     elif backend == 'json':
         import json
         with open(path, 'r') as file:
