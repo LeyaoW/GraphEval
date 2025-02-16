@@ -2,7 +2,6 @@ import torch
 from tqdm import tqdm
 from args import args, supported_kgs
 from collections import defaultdict
-import random
 import os
 import argparse
 from torch import Tensor
@@ -11,6 +10,7 @@ from os.path import join as pjoin
 import pickle
 from typing import Tuple, Optional, List, Dict, Any, Union, Set
 from transformers import AutoModel, AutoTokenizer, AutoConfig
+import secrets
 
 
 def relation_url_to_name(url, which):
@@ -91,11 +91,11 @@ class KG:
         r2t = set(self.r2t[r])
         hr2t = set(self.hr2t[(h, r)])
 
-        options = random.sample(sorted(r2t - hr2t), min(len(r2t - hr2t), option_size))
+        options = secrets.SystemRandom().sample(sorted(r2t - hr2t), min(len(r2t - hr2t), option_size))
 
         # Ensure we have enough options
         while len(options) < option_size:
-            t = random.choice(list(self.id2entity.keys()))
+            t = secrets.choice(list(self.id2entity.keys()))
             if t not in options:
                 options.append(t)
         return options
@@ -112,7 +112,7 @@ class KG:
 
         options.append(target)
 
-        random.shuffle(options)
+        secrets.SystemRandom().shuffle(options)
 
         idx = options.index(target)
         # Generating option prompt
