@@ -1,4 +1,3 @@
-import random
 
 from utils import *
 import numpy as np
@@ -8,6 +7,7 @@ from args import *
 from .llm_clients import AskModel
 
 import json
+import secrets
 
 
 def prepare_pageview_based_triples(kg, triples=None, pageview_dir=None, num_triples=200, top_entities=10000,
@@ -145,7 +145,7 @@ def preprocess_true_false_label(kg, triples, model_name=None, model_type='llama'
         h, r, t = h.item(), r.item(), t.item()
         _, answer, options = kg.provide_tail_options(h, r, t, option_hook=None)
 
-        t_false = options[random.choice([i for i in range(len(options)) if i != ord(answer) - ord('A')])]
+        t_false = options[secrets.choice([i for i in range(len(options)) if i != ord(answer) - ord('A')])]
 
         false_set.append((h, r, t_false))
     from .data_generator import LLMTrainData
