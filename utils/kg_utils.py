@@ -11,6 +11,7 @@ from os.path import join as pjoin
 import pickle
 from typing import Tuple, Optional, List, Dict, Any, Union, Set
 from transformers import AutoModel, AutoTokenizer, AutoConfig
+import fickling
 
 
 def relation_url_to_name(url, which):
@@ -278,7 +279,7 @@ def get_KG_embeddings(args: argparse.Namespace,
     if not invalidate_cache and os.path.exists(pjoin(embedding_dir, which, 'kg_final')):
         print("loading KG from cache...")
         with open(pjoin(embedding_dir, which, 'kg_final'), 'rb') as f:
-            kg = pickle.load(f)
+            kg = fickling.load(f)
     else:
         print("loading KG...")
         if which in ['dbpedia-en', 'dbpedia-en-filtered']:

@@ -18,3 +18,4 @@ flash_attn==2.5.3
 peft==0.9.0
 pytorch_lightning==2.2.0.post0
 pytorch_partial_crf==0.2.1
+fickling>=0.1.3,~=0.1.0
