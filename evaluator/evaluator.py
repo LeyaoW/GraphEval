@@ -13,9 +13,8 @@ from .common import EvaluationResultUnit, EvaluationModel, QueriesDataset, verbo
     BatchEvaluationInput, BatchEvaluationOutput
 from .mp_helper import dispatch_evaluation_tasks, handling_evaluation_results, multi_device_serving
 from .dist_helper import prepare_dataloader, generate_evaluation_tasks, ddp_process
-
-import random
 from collections import defaultdict
+import secrets
 
 
 # from .common import EvaluationResultUnit, EvaluationModel, QueriesDataset
@@ -73,10 +72,10 @@ class Evaluator:
                             desc=f"Negative sampling for {len(triples)} triples, samples_per_triple={samples_per_triple}"):
             h, r, t = int(h), int(r), int(t)
             for _ in range(samples_per_triple):
-                fake_h = random.randrange(0, len(kg.entitynames))
-                fake_t = random.randrange(0, len(kg.entitynames))
-                fake_r = random.randrange(0, len(kg.relationnames))
-                choose_which = random.choice([0, 1, 2])
+                fake_h = secrets.SystemRandom().randrange(0, len(kg.entitynames))
+                fake_t = secrets.SystemRandom().randrange(0, len(kg.entitynames))
+                fake_r = secrets.SystemRandom().randrange(0, len(kg.relationnames))
+                choose_which = secrets.choice([0, 1, 2])
                 fake_triple_choices = [(fake_h, r, t), (h, fake_r, t), (h, r, fake_t)]
                 fake_triples.append(fake_triple_choices[choose_which])
                 their_original.append((h, r, t))
